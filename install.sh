@@ -57,7 +57,7 @@ if [ "$ouinon" = "y" ] || [ "$ouinon" = "Y" ]; then
 	echo ""
 	echo "appuiez sur une touche pour continuer"
 	read a
-	apt-get install mysql-server python-mysqldb apache2 php5 libapache2-mod-php5 php5-mysql phpmyadmin shellinabox -y
+	apt-get install mysql-server python-mysqldb apache2 php5 libapache2-mod-php5 php5-mysql phpmyadmin -y
 	echo ""
 	echo ""
 	echo "     *************************************"
@@ -202,7 +202,7 @@ if [ "$ouinon" = "y" ] || [ "$ouinon" = "Y" ]; then
 	dateetheure=$(date +%Y%m%d%H%M%S)
 	echo ""
 	echo ""
-	mysql -uroot -p${mdproot} -hlocalhost -D${dbname} -e "INSERT INTO bdd (dateetheure, loginadmin, mdpadmin, ip) VALUES ( '$dateetheure', '$loginadmin', '$$mdpadmin', '$ip' )";
+	mysql -uroot -p${mdproot} -hlocalhost -D${dbname} -e "INSERT INTO config (dateetheure, loginadmin, mdpadmin, ip) VALUES ( '$dateetheure', '$loginadmin', '$mdpadmin', '$ip' )";
 	echo ""	
 	echo ""
 	echo "     //////////////////////////////////////////////"
