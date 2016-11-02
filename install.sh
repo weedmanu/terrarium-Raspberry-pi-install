@@ -58,7 +58,7 @@ if [ "$ouinon" = "y" ] || [ "$ouinon" = "Y" ]; then
 	echo "     *   installation de LAMP (linux apache mysql phpmyadmin)   *"
 	echo "     ************************************************************"
 	echo ""
-	echo "Vous allez devoir ici définir un mot de passe root mysql, puis pour phpmyadmin choisissez apache et définissez un mot de passe phpmyadmin"
+	echo "Vous allez devoir ici définir un mot de passe root mysql, puis pour phpmyadmin choisissez apache et définissez un mot de passe phpmyadmin (mettre le même que mysql)"
 	echo ""
 	echo "appuiez sur une touche pour continuer"
 	read a
