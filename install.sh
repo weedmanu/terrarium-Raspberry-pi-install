@@ -57,7 +57,7 @@ if [ "$ouinon" = "y" ] || [ "$ouinon" = "Y" ]; then
 	echo ""
 	echo "appuiez sur une touche pour continuer"
 	read a
-	apt-get install mysql-server python-mysqldb apache2 php5 libapache2-mod-php5 php5-mysql phpmyadmin -y
+	apt-get install mysql-server python-mysqldb apache2 php5 libapache2-mod-php5 php5-mysql phpmyadmin shellinabox -y
 	echo ""
 	echo ""
 	echo "     *************************************"
@@ -241,7 +241,7 @@ if [ "$ouinon" = "y" ] || [ "$ouinon" = "Y" ]; then
 	echo " Ouvrer ce lien dans votre navigateur , il va passer en https , il faut ajouter une execption de sécuriter en cliquant sur avancé "
 	echo " Cocher conserver de façon permanante, et vous tomber sur le terminal du pi. fermer la page. "
 	echo ""
-	echo "touche une touche pour continuer"
+	echo "touche entrée pour continuer"
 	read a
 	echo "Ouvrer ce lien dans votre navigateur internet et entrer vos identifiant pour la page admin et régler les derniers paramètres du terrarium"
 	echo ""
