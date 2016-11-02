@@ -15,6 +15,7 @@ if [ "$ouinon" = "y" ] || [ "$ouinon" = "Y" ]; then
 	echo "     *   mise à jour du Raspberry   *"
 	echo "     ********************************"
 	echo ""
+	sleep 1
 	apt-get update && apt-get upgrade -y
 	echo ""
 	echo ""
@@ -22,6 +23,7 @@ if [ "$ouinon" = "y" ] || [ "$ouinon" = "Y" ]; then
 	echo "     *   installation de build, python, git et pip   *"
 	echo "     *************************************************"
 	echo ""
+	sleep 1
 	apt-get install apt-transport-https -y && apt-get install build-essential python-dev python-openssl git python-pip -y
 	echo ""
 	echo ""
@@ -29,12 +31,14 @@ if [ "$ouinon" = "y" ] || [ "$ouinon" = "Y" ]; then
 	echo "     *   installation de la librairie python 'ephem'   *"
 	echo "     ***************************************************"
 	echo ""
+	sleep 1
 	pip install ephem 
 	echo ""
 	echo "     *****************************************************************"
 	echo "     *   installation des librairies adafruit pour lire les sondes   *"
 	echo "     *****************************************************************"
 	echo ""
+	sleep 1
 	cd /home/pi
 	git clone https://github.com/adafruit/Adafruit_Python_DHT.git
 	cd Adafruit_Python_DHT
@@ -44,6 +48,7 @@ if [ "$ouinon" = "y" ] || [ "$ouinon" = "Y" ]; then
 	echo "     *   installation des librairies pour communiquer avec l'écran LCD  *"
 	echo "     ********************************************************************"
 	echo ""
+	sleep 1
 	cd /home/pi
 	git clone https://github.com/dbrgn/RPLCD
 	cd RPLCD
@@ -64,8 +69,10 @@ if [ "$ouinon" = "y" ] || [ "$ouinon" = "Y" ]; then
 	echo "     *   création de la base de donnée   *"
 	echo "     *************************************"
 	echo ""
+	sleep 1
 	dbname="Terrarium"
 	echo""		
+	sleep 1
     unset mdproot
 	prompt="Entrer le mot de passe root mysql :"
 	while IFS= read -p "$prompt" -r -s -n 1 char
@@ -79,9 +86,11 @@ if [ "$ouinon" = "y" ] || [ "$ouinon" = "Y" ]; then
 	done
 	echo ""
 	echo "Création de la base de donnée ....."
+	sleep 1
 	mysql -uroot -p${mdproot} -e "CREATE DATABASE ${dbname};"
 	echo""
 	echo "liste des base de donnée de mysql, la base Terrarium doit être présente"
+	sleep 1
 	mysql -uroot -p${mdproot} -e "show databases;"
 	echo ""
 	echo "Vous devez définir un nom d'utilisateur :"	
@@ -102,25 +111,30 @@ if [ "$ouinon" = "y" ] || [ "$ouinon" = "Y" ]; then
 	echo ""
 	echo "Création du nouvel utilisateur et donne les droits sur la base de donnée Terrarium"
 	echo ""
+	sleep 1
 	mysql -hlocalhost -uroot -p${mdproot} -e "CREATE USER ${loginbdd}@localhost IDENTIFIED BY '${mdpbdd}';"
 	mysql -hlocalhost -uroot -p${mdproot} -e "GRANT ALL PRIVILEGES ON ${dbname}.* TO '${loginbdd}'@'localhost';"
 	mysql -hlocalhost -uroot -p${mdproot} -e "FLUSH PRIVILEGES;"
 	echo ""	
 	echo "On crée la table capteurdata"
+	sleep 1
 	mysql -u${loginbdd} -p${mdpbdd} -hlocalhost -D${dbname} -e "CREATE TABLE capteurdata (dateandtime DATETIME, tempF DOUBLE, humF DOUBLE, tempC DOUBLE, humC DOUBLE);"
 	echo ""						   
 	echo "on créer la table config"
 	echo ""
-	mysql -u${loginbdd} -p${mdpbdd} -hlocalhost -D${dbname} -e "CREATE TABLE config (dateetheure DATETIME, loginadmin VARCHAR(32), mdpadmin VARCHAR(32), longitude FLOAT, latitude FLOAT, altitude INT, limitebasse INT, limitehaute INT, jour INT, nuit INT, warmpi INT, envoyeur VARCHAR(32), mdpenvoyeur VARCHAR(32), receveur VARCHAR(32), ip VARCHAR(32));"
+	sleep 1
+	mysql -u${loginbdd} -p${mdpbdd} -hlocalhost -D${dbname} -e "CREATE TABLE config (dateetheure DATETIME, loginadmin VARCHAR(32), mdpadmin VARCHAR(32), longitude FLOAT, latitude FLOAT, altitude INT, limitebasse INT, limitehaute INT, jour INT, nuit INT, warmpi INT, envoyeur VARCHAR(32), mdpenvoyeur VARCHAR(32), receveur VARCHAR(32), ip VARCHAR(32), Heure_ete_hiver INT);"
 	echo ""
 	echo "on redémarre mysql "
 	echo ""
+	sleep 1
 	/etc/init.d/mysql restart
 	echo ""
 	echo "   ****************************************************"
 	echo "   *   téléchargement et installation de terraspiV2   *"
 	echo "   ****************************************************"
 	echo ""
+	sleep 1
 	cd /var/www/html/
 	rm index.html
 	rm -R terraspi	
@@ -142,11 +156,13 @@ if [ "$ouinon" = "y" ] || [ "$ouinon" = "Y" ]; then
 	echo "    **************"
 	echo ""
 	echo "login mysql"
+	sleep 1
 	echo ""	
 	sed -i "s/loginbdd/${loginbdd}/g" bdd.json
 	echo "ok"
 	echo ""	
 	echo "mot de passe mysql"
+	sleep 1
 	echo ""
 	sed -i "s/mdpbdd/${mdpbdd}/g" bdd.json
 	echo "ok"		
@@ -210,6 +226,7 @@ if [ "$ouinon" = "y" ] || [ "$ouinon" = "Y" ]; then
 	echo "     //////////////////////////////////////////////"
 	echo ""
 	echo "Et je dirais même plus , "
+	sleep 1
 	cd /var/www/html/terraspi/
 	rm install.sh
 	cd /home/pi/
@@ -234,6 +251,7 @@ if [ "$ouinon" = "y" ] || [ "$ouinon" = "Y" ]; then
 	echo "           ********************************"
 	echo "           ********************************"
 	echo ""
+	sleep 1
 	echo "ensuite :"
 	echo ""
 	echo "   http://${ip}:4200"
