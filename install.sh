@@ -1,42 +1,45 @@
 #!/bin/bash
+
+# Black        0;30     Dark Gray     1;30
+# Red          0;31     Light Red     1;31
+# Green        0;32     Light Green   1;32
+# Brown/Orange 0;33     Yellow        1;33
+# Blue         0;34     Light Blue    1;34
+# Purple       0;35     Light Purple  1;35
+# Cyan         0;36     Light Cyan    1;36
+# Light Gray   0;37     White         1;37
+
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[1;34m'
+NC='\033[0m' # No Color
 echo""
 echo "Voulez-vous démmarer l'installation ? (y/n)"
 read ouinon
 if [ "$ouinon" = "y" ] || [ "$ouinon" = "Y" ]; then
 	echo ""
 	echo ""
-	echo "     ////////////////////////////////////////////////"
-	echo "     //     Début du programme d'installation      //"
-	echo "     ////////////////////////////////////////////////"
+	printf "%b\n" "   ${GREEN}////////////////////////////////////////////////${NC}\n   ${YELLOW}//     Début du programme d'installation      //${NC}\n   ${RED}////////////////////////////////////////////////${NC}"
 	echo ""
 	echo ""
-	echo ""
-	echo "     ********************************"
-	echo "     *   mise à jour du Raspberry   *"
-	echo "     ********************************"
+	printf "%b\n" "${BLUE}     ********************************\n     *   mise à jour du Raspberry   *\n     ********************************${NC}\n"
 	echo ""
 	sleep 1
 	apt-get update && apt-get upgrade -y
 	echo ""
-	echo ""
-	echo "     *************************************************"
-	echo "     *   installation de build, python, git et pip   *"
-	echo "     *************************************************"
+	printf "%b\n" "${BLUE}     *************************************************\n     *   installation de build, python, git et pip   *\n     *************************************************${NC}\n"
 	echo ""
 	sleep 1
 	apt-get install apt-transport-https -y && apt-get install build-essential python-dev python-openssl git python-pip -y
 	echo ""
 	echo ""
-	echo "     ***************************************************"
-	echo "     *   installation de la librairie python 'ephem'   *"
-	echo "     ***************************************************"
+	printf "%b\n" "${BLUE}     ***************************************************\n     *   installation de la librairie python 'ephem'   *\n     ***************************************************${NC}\n"
 	echo ""
 	sleep 1
 	pip install ephem 
 	echo ""
-	echo "     *****************************************************************"
-	echo "     *   installation des librairies adafruit pour lire les sondes   *"
-	echo "     *****************************************************************"
+	printf "%b\n" "${BLUE}     *****************************************************************\n     *   installation des librairies adafruit pour lire les sondes   *\n     *****************************************************************${NC}\n"
 	echo ""
 	sleep 1
 	cd /home/pi
@@ -44,9 +47,7 @@ if [ "$ouinon" = "y" ] || [ "$ouinon" = "Y" ]; then
 	cd Adafruit_Python_DHT
 	python setup.py install
 	echo ""
-	echo "     ********************************************************************"
-	echo "     *   installation des librairies pour communiquer avec l'écran LCD  *"
-	echo "     ********************************************************************"
+	printf "%b\n" "${BLUE}     ********************************************************************\n     *   installation des librairies pour communiquer avec l'écran LCD  *\n     ********************************************************************${NC}\n"
 	echo ""
 	sleep 1
 	cd /home/pi
@@ -54,20 +55,15 @@ if [ "$ouinon" = "y" ] || [ "$ouinon" = "Y" ]; then
 	cd RPLCD
 	python setup.py install
 	echo ""
-	echo "     ************************************************************"
-	echo "     *   installation de LAMP (linux apache mysql phpmyadmin)   *"
-	echo "     ************************************************************"
+	printf "%b\n" "${BLUE}     ************************************************************\n     *   installation de LAMP (linux apache mysql phpmyadmin)   *\n     ************************************************************${NC}\n"
 	echo ""
-	echo "Vous allez devoir ici définir un mot de passe root mysql, puis pour phpmyadmin choisissez apache et définissez un mot de passe phpmyadmin (mettre le même que mysql)"
+	printf "Vous allez devoir ici ${LRED}définir un mot de passe root mysql${NC},\npuis pour ${LRED}phpmyadmin choisissez apache${NC}\n${LRED}définissez un mot de passe pour phpmyadmin${NC} (${YELLOW}mettre le même que mysql c'est plus simple${NC})\n"
 	echo ""
 	echo "appuiez sur une touche pour continuer"
 	read a
 	apt-get install mysql-server python-mysqldb apache2 php5 libapache2-mod-php5 php5-mysql phpmyadmin shellinabox -y
 	echo ""
-	echo ""
-	echo "     *************************************"
-	echo "     *   création de la base de donnée   *"
-	echo "     *************************************"
+	printf "%b\n" "${BLUE}     *************************************\n     *   création de la base de donnée   *\n     *************************************${NC}\n"
 	echo ""
 	sleep 1
 	dbname="Terrarium"
@@ -85,16 +81,15 @@ if [ "$ouinon" = "y" ] || [ "$ouinon" = "Y" ]; then
 		mdproot+="$char"
 	done
 	echo ""
-	echo "Création de la base de donnée ....."
+	printf "${BLUE} Création de la base de donnée .....${NC}\n"
 	sleep 1
 	mysql -uroot -p${mdproot} -e "CREATE DATABASE ${dbname};"
 	echo""
-	echo "liste des base de donnée de mysql, la base Terrarium doit être présente"
+	printf "${BLUE} liste des base de donnée de mysql, la base Terrarium doit être présente${NC}\n"
 	sleep 1
 	mysql -uroot -p${mdproot} -e "show databases;"
 	echo ""
 	echo "Vous devez définir un nom d'utilisateur :"	
-	echo "Définir un nom d'utilisateur"
 	read loginbdd
 	echo ""	
 	unset mdpbdd
@@ -109,7 +104,7 @@ if [ "$ouinon" = "y" ] || [ "$ouinon" = "Y" ]; then
 		mdpbdd+="$char2"
 	done
 	echo ""
-	echo "Création du nouvel utilisateur et donne les droits sur la base de donnée Terrarium"
+	printf "${BLUE} Création du nouvel utilisateur et donne les droits sur la base de donnée Terrarium${NC}\n"
 	echo ""
 	sleep 1
 	mysql -hlocalhost -uroot -p${mdproot} -e "CREATE USER ${loginbdd}@localhost IDENTIFIED BY '${mdpbdd}';"
@@ -130,9 +125,7 @@ if [ "$ouinon" = "y" ] || [ "$ouinon" = "Y" ]; then
 	sleep 1
 	/etc/init.d/mysql restart
 	echo ""
-	echo "   ****************************************************"
-	echo "   *   téléchargement et installation de terraspiV2   *"
-	echo "   ****************************************************"
+	printf "%b\n" "${BLUE}   ****************************************************\n   *   téléchargement et installation de terraspiV2   *\n   ****************************************************${NC}\n"
 	echo ""
 	sleep 1
 	cd /var/www/html/
@@ -151,9 +144,8 @@ if [ "$ouinon" = "y" ] || [ "$ouinon" = "Y" ]; then
 	cp install.sh -t /var/www/html/terraspi/prog/
 	cd /var/www/html/terraspi/csv/
 	echo ""
-	echo "    **************"
-	echo "    *    MySQL   *"
-	echo "    **************"
+	printf "%b\n" "${BLUE}    **************\n    *    MySQL   *\n    **************${NC}\n"
+	echo ""
 	echo ""
 	echo "login mysql"
 	sleep 1
@@ -167,9 +159,10 @@ if [ "$ouinon" = "y" ] || [ "$ouinon" = "Y" ]; then
 	sed -i "s/mdpbdd/${mdpbdd}/g" bdd.json
 	echo "ok"		
 	echo ""
-	echo "    ******************"
-	echo "    *     Admin      *"
-	echo "    ******************"
+	printf "%b\n" "${BLUE}    ******************\n    *     Admin      *\n    ******************${NC}\n"
+	echo ""
+	echo ""
+	echo ""
 	echo ""
 	echo "Entrer un nom d'utilisteur pour la page web admin :"
 	echo ""
@@ -181,10 +174,7 @@ if [ "$ouinon" = "y" ] || [ "$ouinon" = "Y" ]; then
 	echo "taper entrée pour valider"
 	read mdpadmin
 	echo ""	
-	echo ""
-	echo "    ***************"
-	echo "    *     IP      *"
-	echo "    ***************"
+	printf "%b\n" "${BLUE}    ***************\n    *     IP      *\n    ***************${NC}\n"
 	echo ""
 	echo "quelle est l'ip de votre Raspberry pi :"
 	echo ""
@@ -221,9 +211,6 @@ if [ "$ouinon" = "y" ] || [ "$ouinon" = "Y" ]; then
 	mysql -uroot -p${mdproot} -hlocalhost -D${dbname} -e "INSERT INTO config (dateetheure, loginadmin, mdpadmin, ip) VALUES ( '$dateetheure', '$loginadmin', '$mdpadmin', '$ip' )";
 	echo ""	
 	echo ""
-	echo "     //////////////////////////////////////////////"
-	echo "     //   Fin du réglage du fichier bdd.json     //"
-	echo "     //////////////////////////////////////////////"
 	echo ""
 	echo "Et je dirais même plus , "
 	sleep 1
@@ -245,16 +232,12 @@ if [ "$ouinon" = "y" ] || [ "$ouinon" = "Y" ]; then
 	rm test
 	python /var/www/html/terraspi/prog/lcd.py &
 	echo ""
-	echo "           ********************************"
-	echo "           ********************************"
-	echo "           **    FIN de l' installation   **"
-	echo "           ********************************"
-	echo "           ********************************"
+	printf "%b\n" "${GREEN}           ********************************\n           ********************************${NC}\n${YELLOW}           **    FIN de l' installation   **${NC}\n${RED}           ********************************\n           ********************************${NC}\n"
 	echo ""
 	sleep 1
 	echo "ensuite :"
 	echo ""
-	echo "   http://${ip}:4200"
+	printf "%b\n" "${YELLOW   http://${ip}:4200${NC}\n"
 	echo ""
 	echo " Ouvrer ce lien dans votre navigateur , il va passer en https , il faut ajouter une execption de sécuriter en cliquant sur avancé "
 	echo " Cocher conserver de façon permanante, et vous tomber sur le terminal du pi. fermer la page. "
@@ -263,10 +246,10 @@ if [ "$ouinon" = "y" ] || [ "$ouinon" = "Y" ]; then
 	read a
 	echo "Ouvrer ce lien dans votre navigateur internet et entrer vos identifiant pour la page admin et régler les derniers paramètres du terrarium"
 	echo ""
-	echo "   http://${ip}/terraspi/admin/"
+	printf "%b\n" "${YELLOW   http://${ip}/terraspi/admin/${NC}\n"
 	echo ""
 	echo ""
-	echo "powered by weedmanu "
+	printf "%b\n" "${GREEN}powered${NC}${YELLOW} by ${NC}${LRED}weedmanu${NC}\n"
 else
 echo "Il faut taper Y ou N!! Pas $ouinon"
 fi
