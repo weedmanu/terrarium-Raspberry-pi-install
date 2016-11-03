@@ -10,7 +10,7 @@ Puis fermer le programme utilisé pour le transfert.
 
 Maintenant en SSH, ou sur le pi dans le terminal on tape :
 
-**cd /home/pi/
+**cd /home/pi/**
 
 Puis
 
