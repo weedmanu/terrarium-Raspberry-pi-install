@@ -8,7 +8,7 @@ Le bouton en **3.3v** et **GPIO 19** du Raspberry pi. (sert a lancer la séquenc
 
 Le module 2 relais en **5v** et **GND** ,et **l' entrée 1** du relais au **GPIO 17** du Raspberry pi (ce sera le chauffage), et **l' entrée 2** du relais au **GPIO 4** du Raspberry pi (ce sera la lumière).
 
-La sonde pour le point froid, **la pin 1** en** 3.3v** et **la pin 4** au **GND**, **la pin 2** au **GPIO 22** du Raspberry pi.
+La sonde pour le point froid, **la pin 1** en **3.3v** et **la pin 4** au **GND**, **la pin 2** au **GPIO 22** du Raspberry pi.
 Il faut placer une résistance de **4.7 kΩ** entre la pin 1 et 2 de la sonde. La pin 3 n'est pas utilisé.
 
 La sonde pour le point chaud, **la pin 1** en **3.3v** et **la pin 4** au **GND**, **la pin 2** au **GPIO 27** du Raspberry pi.
