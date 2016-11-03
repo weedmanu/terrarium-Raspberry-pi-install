@@ -52,17 +52,7 @@ if [ "$ouinon" = "y" ] || [ "$ouinon" = "Y" ]; then
 	echo ""
 	dbname="Terrarium"
 	echo""		
-    unset mdproot
-	prompt="Entrer le mot de passe root mysql :"
-	while IFS= read -p "$prompt" -r -s -n 1 char
-	do
-		if [[ $char == $'\0' ]]
-		then
-			break
-		fi
-		prompt='*'
-		mdproot+="$char"
-	done
+    read mdproot	
 	echo ""
 	mysql -uroot -p${mdproot} -e "CREATE DATABASE ${dbname};"
 	echo""
@@ -72,17 +62,8 @@ if [ "$ouinon" = "y" ] || [ "$ouinon" = "Y" ]; then
 	echo "Définir un nom d'utilisateur pour mysql:"
 	read loginbdd
 	echo ""	
-	unset mdpbdd
-	prompt2="Définir le mot de passe de cet utilisateur:"
-	while IFS= read -p "$prompt2" -r -s -n 1 char2
-	do
-		if [[ $char2 == $'\0' ]]
-		then
-			break
-		fi
-		prompt2='*'
-		mdpbdd+="$char2"
-	done
+	echo "Définir un mot de passe pour cet utilisateur:"
+	read mdpbdd	
 	echo ""
 	echo "Création du nouvel utilisateur et donne les droits sur la base de donnée Terrarium"
 	echo ""
