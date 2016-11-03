@@ -50,7 +50,6 @@ if [ "$ouinon" = "y" ] || [ "$ouinon" = "Y" ]; then
 	echo ""
 	printf "%b\n" "${BLUE}     *************************************\n     *   création de la base de donnée   *\n     *************************************${NC}\n"
 	echo ""
-	read a
 	dbname="Terrarium"
 	echo""		
     unset mdproot
