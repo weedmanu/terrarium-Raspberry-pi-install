@@ -65,11 +65,10 @@ if (whiptail --title "Installation" --yesno "voulez vous lancer l'installation ?
 		mysql -uroot -p${mdproot} -e "CREATE DATABASE ${dbname};"    
 	else
 		echo "Annulé"
-	fi
-	echo ""
-	mysql -uroot -p${mdproot} -e "CREATE DATABASE ${dbname};"
+	fi	
 	echo""
 	printf "${BLUE} liste des base de donnée de mysql, la base Terrarium doit être présente${NC}\n"
+	echo ""
 	mysql -uroot -p${mdproot} -e "show databases;"
 	echo ""
 	loginbdd=$(whiptail --title "Login user mysql" --inputbox "Choisir un non d'utilisateur pour mysql :" 10 60 3>&1 1>&2 2>&3)
@@ -172,15 +171,13 @@ if (whiptail --title "Installation" --yesno "voulez vous lancer l'installation ?
 	if [ $exitstatus6 = 1 ]; then 
 		echo "Annulé"
 	fi
-
 	until valid_ip $ip
 	do
 		ip=$(whiptail --title "Configuration" --inputbox "Une adresse ip valide !!! :" 10 60 3>&1 1>&2 2>&3)
 		exitstatus7=$?
 		if [ $exitstatus7 = 1 ]; then 
 			echo "Annulé"
-		fi
-		
+		fi		
 	done
 	echo ""	
 	echo ""
