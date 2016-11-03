@@ -1,14 +1,12 @@
 #!/bin/bash
 echo ""
 RED='\033[1;31m'
-GREEN='\033[1;32m'
+GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 BLUE='\033[1;34m'
 NC='\033[0m' 
 echo""
-echo "Voulez-vous démmarer l'installation ? (y/n)"
-read ouinon
-if [ "$ouinon" = "y" ] || [ "$ouinon" = "Y" ]; then
+if (whiptail --title "Installation" --yesno "voulez vous lancer l'installation ?" --yes-button "oui" --no-button "non" 10 60) then
 	echo ""
 	printf "%b\n" "   ${GREEN}////////////////////////////////////////////////${NC}\n   ${YELLOW}//      Début du programme dinstallation      //${NC}\n   ${RED}////////////////////////////////////////////////${NC}\n"
 	echo ""
@@ -50,20 +48,37 @@ if [ "$ouinon" = "y" ] || [ "$ouinon" = "Y" ]; then
 	echo ""
 	printf "%b\n" "${BLUE}     *************************************\n     *   création de la base de donnée   *\n     *************************************${NC}\n"
 	echo ""
+	read a
 	dbname="Terrarium"
 	echo""		
-    read mdproot	
+    mdproot=$(whiptail --title "Mot de passe root Mysql" --passwordbox "Entrer le mot de passe root mysql :" 10 60 3>&1 1>&2 2>&3) 
+	exitstatus=$?
+	if [ $exitstatus = 0 ]; then
+		mysql -uroot -p${mdproot} -e "CREATE DATABASE ${dbname};"    
+	else
+		echo "Annulé"
+	fi
 	echo ""
 	mysql -uroot -p${mdproot} -e "CREATE DATABASE ${dbname};"
 	echo""
 	printf "${BLUE} liste des base de donnée de mysql, la base Terrarium doit être présente${NC}\n"
 	mysql -uroot -p${mdproot} -e "show databases;"
 	echo ""
-	echo "Définir un nom d'utilisateur pour mysql:"
-	read loginbdd
+	loginbdd=$(whiptail --title "Login user mysql" --inputbox "Choisir un non d'utilisateur pour mysql :" 10 60 3>&1 1>&2 2>&3)
+	exitstatus2=$?
+	if [ $exitstatus2 = 1 ]; then 
+		echo "Annulé"
+	fi
 	echo ""	
-	echo "Définir un mot de passe pour cet utilisateur:"
-	read mdpbdd	
+	mdpbdd=$(whiptail --title "Mot de passe user Mysql" --passwordbox "Choisir un mot de passe pour cet utilisateur :" 10 60 3>&1 1>&2 2>&3) 
+	exitstatus3=$?
+	if [ $exitstatus3 = 0 ]; then
+		mysql -hlocalhost -uroot -p${mdproot} -e "CREATE USER ${loginbdd}@localhost IDENTIFIED BY '${mdpbdd}';"
+		mysql -hlocalhost -uroot -p${mdproot} -e "GRANT ALL PRIVILEGES ON ${dbname}.* TO '${loginbdd}'@'localhost';"
+		mysql -hlocalhost -uroot -p${mdproot} -e "FLUSH PRIVILEGES;"
+	else
+		echo "Annulé"
+	fi
 	echo ""
 	echo "Création du nouvel utilisateur et donne les droits sur la base de donnée Terrarium"
 	echo ""
@@ -114,21 +129,19 @@ if [ "$ouinon" = "y" ] || [ "$ouinon" = "Y" ]; then
 	echo ""
 	printf "%b\n" "${BLUE}    ******************\n    *     Admin      *\n    ******************${NC}\n"
 	echo ""
-	echo "Entrer un nom d'utilisteur pour la page web admin :"
-	echo ""
-	echo "taper entrée pour valider"
-	read loginadmin
-	echo ""
-	echo "définir un mot de passe pour cet utilisateur :"
-	echo ""
-	echo "taper entrée pour valider"
-	read mdpadmin
+	loginadmin=$(whiptail --title "Configuration" --inputbox "Choisir un non d'utilisateur pour la page admin :" 10 60 3>&1 1>&2 2>&3)
+	exitstatus4=$?
+	if [ $exitstatus4 = 1 ]; then 
+		echo "Annulé"
+	fi
+	mdpbadmin=$(whiptail --title "Configuration" --passwordbox "Choisir un mot de passe pour cet utilisateur :" 10 60 3>&1 1>&2 2>&3) 
+	exitstatus5=$?
+	if [ $exitstatus5 = 1 ]; then
+		echo "Annulé"
+	fi
 	echo ""	
 	printf "%b\n" "${BLUE}    ***************\n    *     IP      *\n    ***************${NC}\n"
 	echo ""
-	echo "quelle est l'ip de votre Raspberry pi :"
-	echo ""
-	echo "taper entrée pour valider"
 	function valid_ip()
 	{
 		local  ip=$1
@@ -146,11 +159,19 @@ if [ "$ouinon" = "y" ] || [ "$ouinon" = "Y" ]; then
 		return $stat
 		
 	}
-	read -p "ton ip ?" ip
+	ip=$(whiptail --title "Configuration" --inputbox "Quelle est l'adresse ip de votre Raspberry pi ?" 10 60 3>&1 1>&2 2>&3)
+	exitstatus6=$?
+	if [ $exitstatus6 = 1 ]; then 
+		echo "Annulé"
+	fi
 
 	until valid_ip $ip
 	do
-		read -p  "ton ip valide !!! : " ip;
+		ip=$(whiptail --title "Configuration" --inputbox "Une adresse ip valide !!! :" 10 60 3>&1 1>&2 2>&3)
+		exitstatus7=$?
+		if [ $exitstatus7 = 1 ]; then 
+			echo "Annulé"
+		fi
 		
 	done
 	echo ""	
@@ -196,8 +217,8 @@ if [ "$ouinon" = "y" ] || [ "$ouinon" = "Y" ]; then
 	echo "   http://${ip}/terraspi/admin/"
 	printf "%b\n" "${NC}"
 	echo ""
-	printf "%b\n" "${GREEN}powered${NC}${YELLOW} by ${NC}${RED}weedmanu${NC}\n"
+	printf "%b\n" "${GREEN}powered${NC}${YELLOW} by ${NC}${LRED}weedmanu${NC}\n"
 else
-	printf "%b\n" "${RED}Installation annulée${NC}"
+	whiptail --title "Installation" --msgbox "Installation annulée !!!" 10 60
 fi
 exit
