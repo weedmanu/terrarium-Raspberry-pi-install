@@ -1,4 +1,12 @@
 #!/bin/bash
+NEWT_COLORS=' 
+  root=,black
+  window=green,green
+  border=yellow,yellow
+  shadow=red,red
+  textbox=black,green
+  button=black,green
+' \
 echo ""
 RED='\033[1;31m'
 GREEN='\033[0;32m'
