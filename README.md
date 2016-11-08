@@ -1,4 +1,4 @@
-# terraspiV2
+# terraspiV2 (INSTALL NON FONCTIONNEL POUR LE MOMENT)
 
 ![schéma](schema.png "schéma")
 
