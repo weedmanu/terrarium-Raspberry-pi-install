@@ -1,10 +1,12 @@
 #!/bin/bash
+
 CYAN='\033[1;36m'
 RED='\033[1;31m'
 GREEN='\033[1;32m'
 YELLOW='\033[1;33m'
 BLUE='\033[1;34m'
 NC='\033[0m' 
+
 if (whiptail --title "Installation" --yesno "voulez vous lancer l'installation ?" --yes-button "oui" --no-button "non" 10 60) then
 	echo ""
 	printf "%b\n" "   ${GREEN}////////////////////////////////////////////////\n   ${YELLOW}//      Début du programme dinstallation      //\n   ${RED}////////////////////////////////////////////////${NC}\n"
@@ -189,7 +191,7 @@ if (whiptail --title "Installation" --yesno "voulez vous lancer l'installation ?
 	rm -R terrarium-Raspberry-pi
 	crontab -upi -l > tachecron
 	echo "* * * * * python /var/www/html//terraspi/prog/terra.py > /dev/null 2>&1" >> tachecron
-	echo "*/15 * * * * python /var/www/html/terraspi/prog/bdd.py > /dev/null 2>&1" >> tachecron
+	echo "*/10 * * * * python /var/www/html/terraspi/prog/bdd.py > /dev/null 2>&1" >> tachecron
 	crontab -upi tachecron
 	rm tachecron
 	cp /etc/rc.local /home/pi/test
@@ -207,13 +209,13 @@ if (whiptail --title "Installation" --yesno "voulez vous lancer l'installation ?
 	printf "           http://${ip}:4200"
 	printf "%b\n" "${NC}"
 	printf "%b\n" "${YELLOW}"
-	echo " Ouvrez ce lien dans votre navigateur , il va passer en https , il faut ajouter une execption de sécurité en cliquant sur avancé "
+	echo " Ouvrez ce lien ci-dessus dans votre navigateur , il va passer en https , il faut ajouter une execption de sécurité en cliquant sur avancé "
 	echo " Cochez conserver de façon permanante, et vous tomberez sur le terminal du pi. fermez la page. "
 	printf "%b\n" "${NC}"
-	echo "Appuyer sur la touche entrée pour continuer"
+	echo "Appuyez sur la touche entrée pour continuer"
 	read a
 	printf "%b\n" "${YELLOW}"
-	echo "Ouvrez ce lien dans votre navigateur internet et entrez vos identifiant pour la page admin et réglez les derniers paramètres du terrarium"
+	echo "Ouvrez ce lien ci-dessous dans votre navigateur internet puis entrez vos identifiants pour la page admin et réglez les derniers paramètres du terrarium"
 	printf "%b\n" "${BLUE}"
 	echo "   http://${ip}/terraspi/admin/"
 	printf "%b\n" "${NC}"

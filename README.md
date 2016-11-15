@@ -1,6 +1,29 @@
-# terraspiV2 (INSTALL NON FONCTIONNEL POUR LE MOMENT)
+# Install terrarium-Raspberry-pi
+
+Sur le pi, on crée le fichier *install.sh* dans le dossier *pi* :
+
+**cd /home/pi**
+
+puis
+
+**nano install.sh**
+
+copiez collez le code dans nano (cela prend quelques secondes quand le code est long).
+
+**CTRL x** pour sortir, **o** pour enregistrer et **touche entrée** pour valider et sortir de nano.
+
+On rend le fichier exécutable :
+
+**chmod +x install.sh**
+
+et pour lancer l'installation :
+
+**sudo ./install.sh**
+
+
 
 ![schéma](schema.png "schéma")
+
 
 Le potentiomètre en **5v** et **GND** et **la pin du milieu** sur **la pin 3 de l'écran LCD**. (sert a régler la luminosité de l' écran)
 
@@ -15,7 +38,6 @@ La sonde pour le point chaud, **la pin 1** en **3.3v** et **la pin 4** au **GND*
 Il faut placer une résistance de **4.7 kΩ** entre la pin 1 et 2 de la sonde. La pin 3 n'est pas utilisé.
 
 Et l'écran LCD:
-
 
  * **pin 01 : au GND**
  * **pin 02 : au 5v**
@@ -33,3 +55,4 @@ Et l'écran LCD:
  * **pin 14 : au GPIO 18 du Raspberry pi**
  * **pin 15 : au 5v**
  * **pin 16 : au GPIO 13 du Raspberry pi**
+
