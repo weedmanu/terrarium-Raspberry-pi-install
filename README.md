@@ -1,5 +1,7 @@
 # Install terrarium-Raspberry-pi
 
+ce script install le projet [terrarium-Raspberry-pi](https://github.com/weedmanu/terrarium-Raspberry-pi).
+
 Sur le pi, on crée le fichier *install.sh* dans le dossier *pi* :
 
 **cd /home/pi**
