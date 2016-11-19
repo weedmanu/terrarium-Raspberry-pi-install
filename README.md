@@ -22,6 +22,8 @@ et pour lancer l'installation :
 
 **sudo ./install.sh**
 
+puis suivez les instructions.
+
 
 
 ![schéma](schema.png "schéma")
