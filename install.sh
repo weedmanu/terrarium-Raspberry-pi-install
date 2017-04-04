@@ -190,8 +190,7 @@ if (whiptail --title "Installation" --yesno "voulez vous lancer l'installation ?
 	cd /home/pi/
 	rm -R terrarium-Raspberry-pi
 	crontab -upi -l > tachecron
-	echo "* * * * * python /var/www/html//terraspi/prog/terra.py > /dev/null 2>&1" >> tachecron
-	echo "*/10 * * * * python /var/www/html/terraspi/prog/bdd.py > /dev/null 2>&1" >> tachecron
+	echo "* * * * * python /var/www/html/terraspi/prog/terra.py > /dev/null 2>&1" >> tachecron	
 	crontab -upi tachecron
 	rm tachecron
 	cp /etc/rc.local /home/pi/test
