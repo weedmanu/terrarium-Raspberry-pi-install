@@ -170,15 +170,13 @@ if (whiptail --title "Installation" --yesno "voulez vous lancer l'installation ?
 	if [ $exitstatus6 = 1 ]; then 
 		echo "Annulé"
 	fi
-
 	until valid_ip $ip
 	do
 		ip=$(whiptail --title "Configuration" --inputbox "Une adresse ip valide !!! :" 10 60 3>&1 1>&2 2>&3)
 		exitstatus7=$?
 		if [ $exitstatus7 = 1 ]; then 
 			echo "Annulé"
-		fi
-		
+		fi		
 	done
 	echo ""	
 	echo ""
@@ -195,7 +193,7 @@ if (whiptail --title "Installation" --yesno "voulez vous lancer l'installation ?
 	rm tachecron
 	cp /etc/rc.local /home/pi/test
 	sed -i '$d' test
-	echo "python /var/www/html//terraspi/prog/lcd.py" >> test
+	echo "python /var/www/html/terraspi/prog/lcd.py" >> test
 	echo "" >> test
 	echo "exit 0" >> test
 	mv test /etc/rc.local
